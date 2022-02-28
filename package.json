@@ -1,0 +1,32 @@
+{
+  "name": "1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/resource/index.js",
+  "type": "module",
+  "scripts": {
+    "watch": "node-sass --watch src/resource/scss/app.scss src/resource/public/css/app.css",
+    "start": "nodemon src/resource/index.js ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "create-require": "^1.1.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^6.0.2",
+    "method-override": "^3.0.0",
+    "module": "^1.2.5",
+    "mongoose": "^6.1.2",
+    "mongoose-delete": "^0.5.4",
+    "mongoose-slug-generator": "^1.0.4",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7",
+    "require": "^2.4.20"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "node-sass": "^7.0.0"
+  }
+}

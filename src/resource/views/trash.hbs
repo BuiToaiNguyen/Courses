@@ -1,0 +1,92 @@
+
+<table class="table table-hover table-inverse table-responsive" style="width:100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th>stt</th>
+            <th>tên</th>
+            <th>mô tả</th>
+            <th>link ảnh </th>
+            <th>thời gian xóa</th>
+            <th>khôi phục</th>
+            <th>xóa vĩnh viễn</th>
+        </tr>
+        </thead>
+        <tbody>
+            {{#each courses}}
+            <tr>
+                <td scope="row">{{@index}}</td>
+                <td >{{this.name}}</td>
+                <td >{{this.mota}}</td>
+                 <td style="width:20%">{{this.image}}</td>
+                <td >{{this.deletedAt}}</td>
+                <td>
+                    
+               <button  id ="Btnrestore" class="btn btn-success"  data-id="{{this._id}}" >khôi phục </button>  </td>
+                <td><button  id="btnDelete" type="button" class="btn btn-danger"  data-id="{{this._id}}" data-toggle="modal" data-target="#modelId" >
+                xóa luôn
+                </button> </td>
+            
+            </tr>
+
+               {{/each }}
+        </tbody>
+</table>
+<form name="formDelete"  method="POST"></form>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xóa khóa học</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                bạn có muốn xóa
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="delete" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="POST" name="restore"></form>
+    
+<script>
+    var formRestore = document.forms['restore'];
+    var btnRes=document.querySelectorAll("#Btnrestore");
+    var arrBtnRes = Array.from(btnRes)
+    console.log(arrBtnRes)
+    arrBtnRes.forEach((btn)=>{
+            btn.addEventListener("click",(event)=>{
+                    index=btn.dataset.id;
+                    formRestore.action="/course/"+index+"/restore?_method=PATCH"
+                    formRestore.submit()
+    })
+
+    })
+
+
+
+    var id=0;
+    var btn = document.querySelectorAll("#btnDelete");
+    var arrBtn = Array.from(btn)
+    console.log(arrBtn)
+    arrBtn.forEach((button)=>{
+    button.addEventListener("click",(event)=>{
+        id=button.dataset.id;
+         console.log(id)
+    })
+    })
+    var deleteBtn = document.querySelector("#delete")
+    var formD = document.forms["formDelete"]
+    deleteBtn.addEventListener("click",(event)=>{ 
+        console.log(id)      
+        formD.action='/course/'+id+'/delete?_method=DELETE';
+        formD.submit();      
+})
+
+</script>

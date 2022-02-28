@@ -1,0 +1,34 @@
+<h1>{{course.name}}</h1>
+    <form method="POST" action="/course/{{course._id}}?_method=PUT">
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-12 "> nhập tên</label>
+            <div class="col-sm-12">
+                    <input type="text" value ="{{course.name}}" name="name" class="form-control" >
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-12 ">nhập mô tả</label>
+            <div class="col-sm-12">
+      <input type="text"  value ="{{course.mota}}"name="mota" class="form-control" >
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-12 ">nhập link ảnh</label>
+            <div class="col-sm-12">
+      <textarea  name="image" class="form-control" >{{course.image}}</textarea>
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-12 ">nhập slug</label>
+            <div class="col-sm-12">
+      <input type="text"  value ="{{course.slug}}"name="slug" class="form-control" >
+            </div>
+        </div>
+       
+        <div class="form-group row">
+            <div class=" col-sm-10">
+                <button type="submit" class="btn btn-primary">sửa</button>
+            </div>
+        </div>
+    </form>

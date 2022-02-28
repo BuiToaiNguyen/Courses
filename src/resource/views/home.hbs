@@ -1,0 +1,20 @@
+<div class="row">
+{{#each courses}}
+     <div class="col-3">
+
+         
+         <div class="card text-left">
+           <a href="/course/{{this.slug}}">
+           <img class="card-img-top" src="{{this.image}}"  alt="">
+           </a>
+           <div class="card-body">
+             <h4 class="card-title">{{this.name}}</h4>
+             <p class="card-text">{{this.mota}}</p>
+           </div>
+         </div>
+
+
+
+     </div>
+        {{/each}}
+</div>

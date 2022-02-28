@@ -1,0 +1,185 @@
+<form action="/me/handle_checkbox" method="POST" name="formContainer">
+
+
+
+
+
+<a href="/me/trash">thùng rác ({{count}})</a>
+
+<div class="d-flex flex-row bd-highlight mb-3">
+     <div class="form-check">
+        <label class="form-check-label">
+        <input type="checkbox" class="form-check-input " id="checkAll" value="checkedValue" >
+        chọn tất 
+        </label>
+    </div>
+    <div class="form-group">
+      <label for="checkAll"></label>
+      <select class="form-control" id ="action" name="action" required>
+        <option value=" ">chọn đi</option>
+        <option value="delete">xóa</option>
+      </select>
+    </div>
+    <div class="btn-group disabled" >
+       
+    <button type="submit" id="btnAll" class="btn btn-success btn-lg btn-block disabled"  >thực hiện</button>
+    </div>
+
+
+
+</div>
+<table class="table table-hover table-inverse table-responsive" style="width:100%">
+    <thead class="thead-inverse">
+        <tr>
+            <th></th>
+            <th>stt</th>
+            <th>tên {{{sorttable "name" _sort}}}</th>
+            <th>mô tả {{{sorttable "mota" _sort}}}</th>
+            <th>link ảnh </th>
+            <th>thời gian tạo </th>
+            <th>sửa</th>
+            <th>xóa</th>
+        </tr>
+        </thead>
+        <tbody>
+            {{#each courses}}
+            <tr>
+                <td>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="checkone[]" name="checkone[]"  value="{{this._id}}" >
+                      </label>
+                    </div>
+                </td>
+                <td scope="row">{{@index}}</td>
+                <td >{{this.name}}</td>
+                <td >{{this.mota}}</td>
+                 <td style="width:20%">{{this.image}}</td>
+                <td >{{this.createdAt}}</td>
+                <td>
+                    
+               <button class="btn "><a href="/course/{{this._id}}/edit">sửa </a></button>  </td>
+                <td><button  id="btnDelete" type="button" class="btn btn-danger"  data-id="{{this._id}}" data-toggle="modal" data-target="#modelId" >
+                xóa
+                </button> </td>
+            
+            </tr>
+
+               {{/each }}
+        </tbody>
+</table>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xóa khóa học</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                bạn có muốn xóa
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="delete" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+  <form name="formDelete"  method="POST"></form>
+  
+<script>
+
+
+
+
+    var id=0;
+    var btn = document.querySelectorAll("#btnDelete");
+    var arrBtn = Array.from(btn)
+    arrBtn.forEach((button)=>{
+    button.addEventListener("click",(event)=>{
+        id=button.dataset.id;
+    })
+    })
+    var deleteBtn = document.querySelector("#delete")
+    var formD = document.forms["formDelete"]
+
+    deleteBtn.addEventListener("click",(event)=>{ 
+
+
+
+        formD.action='/course/'+id+'?_method=DELETE';
+        formD.submit();      
+})
+
+
+
+var checkboxAll = document.querySelector("#checkAll")
+var checkOnes= document.querySelectorAll("input[name='checkone[]']")
+
+var arrayCheckOnes= Array.from(checkOnes)
+var btnAll = document.querySelector("#btnAll");
+var action = document.querySelector("#action")
+var formContainer = document.forms['formContainer'];
+
+actionValue=action.value;
+console.log("  hi",actionValue)
+action.addEventListener("change",(e)=>{
+    actionValue=action.value;
+    var lenght=document.querySelectorAll("input[name='checkone[]']:checked").length;
+    console.log(lenght)
+    if( (actionValue !=" " && checkboxAll.checked) || (actionValue !=" " && lenght)){
+         btnAll.classList.remove("disabled" )
+
+    }else{
+        btnAll.classList.add("disabled");
+
+    }
+})
+checkboxAll.addEventListener("change",(e)=>{
+    arrayCheckOnes.forEach((checkone)=>{
+        checkone.checked=checkboxAll.checked;
+
+    if(!checkboxAll.checked || actionValue ==" " ){
+            btnAll.classList.add("disabled")
+        }else{
+            btnAll.classList.remove("disabled")
+        }
+
+    })
+})
+
+arrayCheckOnes.forEach((checkone)=>{
+    checkone.addEventListener("change",(e)=>{
+        var lenght=document.querySelectorAll("input[name='checkone[]']:checked").length;
+        if(arrayCheckOnes.length==lenght){
+           checkboxAll.checked=true 
+        }
+        else{
+            checkboxAll.checked=false
+        }
+
+
+        if(lenght ==0 || actionValue ==" " ){
+            btnAll.classList.add("disabled")
+        }else{
+            btnAll.classList.remove("disabled")
+        }
+        
+    })
+})
+btnAll.addEventListener('click',(e)=>{
+    var statusSubmit = btnAll.classList.contains("disabled");
+        if(statusSubmit){
+                event.preventDefault();
+        }
+       
+})
+
+
+</script>
